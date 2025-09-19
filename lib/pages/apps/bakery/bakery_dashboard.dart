@@ -15,6 +15,9 @@ class BakeryButtonState extends State<BakeryDashboard> {
     'assets/images/banner-bakery3.webp',
   ];
 
+  bool isSearching = false;
+  final TextEditingController searchController = TextEditingController();
+
   String selectedCategory = "All";
 
   final List<String> categories = ["All", "Breads", "Pastries"];
@@ -53,22 +56,72 @@ class BakeryButtonState extends State<BakeryDashboard> {
     // tambahkan produk lain sesuai kebutuhan
   ];
 
+  late List<Map<String, String>> filteredProducts;
+
+  @override
+  void initState() {
+    super.initState();
+    filteredProducts = List.from(products); // default semua produk
+  }
+
+  void filterProducts() {
+    String query = searchController.text.toLowerCase();
+
+    setState(() {
+      filteredProducts = products.where((product) {
+        final matchesCategory =
+            selectedCategory == "All" ||
+            product["category"] == selectedCategory;
+        final matchesSearch = product["name"]!.toLowerCase().contains(query);
+        return matchesCategory && matchesSearch;
+      }).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Filter produk berdasarkan kategori yang dipilih
-    List<Map<String, String>> filteredProducts = selectedCategory == "All"
-        ? products
-        : products
-              .where((product) => product["category"] == selectedCategory)
-              .toList();
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Bakery Dashboard",
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-        ),
+        title: isSearching
+            ? TextField(
+                controller: searchController,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  hintText: "Search bakery...",
+                  border: InputBorder.none,
+                ),
+                style: const TextStyle(color: Colors.black, fontSize: 16),
+                onChanged: (value) => filterProducts(),
+              )
+            : const Text(
+                "Bakery Shop",
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+              ),
         centerTitle: true,
         actions: [
+          isSearching
+              ? IconButton(
+                  icon: const Icon(Icons.close),
+                  color: const Color(0xFF9DC183),
+                  onPressed: () {
+                    setState(() {
+                      isSearching = false;
+                      searchController.clear();
+                      filteredProducts = List.from(products);
+                      selectedCategory = "All";
+                    });
+                  },
+                )
+              : IconButton(
+                  icon: const Icon(Icons.search),
+                  color: const Color(0xFF9DC183),
+                  onPressed: () {
+                    setState(() {
+                      isSearching = true;
+                    });
+                  },
+                ),
+
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
             child: IconButton(
@@ -131,6 +184,7 @@ class BakeryButtonState extends State<BakeryDashboard> {
                       setState(() {
                         selectedCategory = cat;
                       });
+                      filterProducts();
                       print("$cat dipencet");
                     },
                     style: ElevatedButton.styleFrom(
@@ -150,63 +204,68 @@ class BakeryButtonState extends State<BakeryDashboard> {
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics:
-                    const NeverScrollableScrollPhysics(), //supaya scrollnya ikut Column
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 3 / 4, // lebar dan tinggi
-                ),
-                itemCount: filteredProducts.length,
-                itemBuilder: (context, index) {
-                  final product = filteredProducts[index];
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(10),
-                            ),
-                            child: Image.asset(
-                              product["image"]!,
-                              fit: BoxFit.cover,
-                            ),
+              child: filteredProducts.isEmpty
+                  ? const Center(child: Text("Produk tidak tersedia"))
+                  : GridView.builder(
+                      shrinkWrap: true,
+                      physics:
+                          const NeverScrollableScrollPhysics(), //supaya scrollnya ikut Column
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 3 / 4, // lebar dan tinggi
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                      itemCount: filteredProducts.length,
+                      itemBuilder: (context, index) {
+                        final product = filteredProducts[index];
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          elevation: 1,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Text(
-                                product["name"]!,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
+                              Expanded(
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(10),
+                                  ),
+                                  child: Image.asset(
+                                    product["image"]!,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                              const SizedBox(height: 5),
-                              Text(
-                                "Rp ${product["price"]}",
-                                style: const TextStyle(color: Colors.grey),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      product["name"]!,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      "Rp ${product["price"]}",
+                                      style: const TextStyle(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
           ],
         ),
