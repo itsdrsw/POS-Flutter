@@ -187,12 +187,23 @@ class _BakeryCartState extends State<BakeryCart> {
         },
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.10),
         child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: const Color(0xFF9DC183),
+            fixedSize: const Size(80, 50),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
           onPressed: () {
             Navigator.pushNamed(context, '/bakery/checkout');
           },
-          child: const Text("Checkout"),
+          child: const Text(
+            "Checkout",
+            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+          ),
         ),
       ),
     );
@@ -218,6 +229,9 @@ class _BakeryCartState extends State<BakeryCart> {
           ),
           actions: [
             TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: const Color(0xFF9DC183),
+              ),
               child: const Text("Cancel"),
               onPressed: () => Navigator.pop(context),
             ),
@@ -229,6 +243,10 @@ class _BakeryCartState extends State<BakeryCart> {
                 });
                 Navigator.of(context).pop();
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF9DC183),
+                foregroundColor: Colors.white,
+              ),
             ),
           ],
         );
