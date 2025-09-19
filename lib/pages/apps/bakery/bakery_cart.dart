@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile1/pages/apps/bakery/bakery_checkout.dart';
 
 class BakeryCart extends StatefulWidget {
   const BakeryCart({super.key});
@@ -198,7 +199,12 @@ class _BakeryCartState extends State<BakeryCart> {
             ),
           ),
           onPressed: () {
-            Navigator.pushNamed(context, '/bakery/checkout');
+            final double total = cartItems.fold<double>(0.0, (sum, item) {
+              final qty = (item['qty'] as num).toDouble();
+              final price = (item['price'] as num).toDouble();
+              return sum + qty * price;
+            });
+            Navigator.pushNamed(context, '/bakery/checkout', arguments: total);
           },
           child: const Text(
             "Checkout",

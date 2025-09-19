@@ -41,7 +41,10 @@ class MyApp extends StatelessWidget {
         '/bakery/menu': (context) => const BakeryMenu(),
         '/bakery/order': (context) => const BakeryOrder(),
         '/bakery/cart': (context) => const BakeryCart(),
-        '/bakery/checkout': (context) => const BakeryCheckout(),
+        '/bakery/checkout': (context) {
+          final total = ModalRoute.of(context)!.settings.arguments as double;
+          return BakeryCheckout(total: total);
+        },
       },
     );
   }
