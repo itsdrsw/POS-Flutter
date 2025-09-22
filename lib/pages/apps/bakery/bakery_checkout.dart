@@ -153,22 +153,10 @@ class _BakeryCheckoutState extends State<BakeryCheckout>
                     );
                     return;
                   }
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text("Pesanan berhasil!"),
-                      backgroundColor: AppColors.success,
-                      behavior: SnackBarBehavior.floating,
-                      margin: const EdgeInsets.all(16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      duration: const Duration(seconds: 5),
-                      action: SnackBarAction(
-                        label: "Tutup",
-                        textColor: Colors.white,
-                        onPressed: () {},
-                      ),
-                    ),
+                  AnimatedSnackbar.show(
+                    context,
+                    "Pesanan berhasil dibuat untuk $selectedUser! ",
+                    type: SnackbarType.success,
                   );
 
                   Navigator.popUntil(context, ModalRoute.withName('/bakery'));

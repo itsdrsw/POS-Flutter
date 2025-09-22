@@ -28,20 +28,19 @@ class AnimatedSnackbar {
       case SnackbarType.success:
         bgColor = AppColors.success;
         icon = Icons.check_circle_rounded;
-        // color = Colors.white;
         break;
       case SnackbarType.warning:
         bgColor = AppColors.warning;
         icon = Icons.warning_rounded;
+        break;
       case SnackbarType.danger:
         bgColor = AppColors.danger;
         icon = Icons.dangerous_rounded;
+        break;
       case SnackbarType.info:
+      default:
         bgColor = AppColors.info;
         icon = Icons.info_rounded;
-      default:
-        bgColor = AppColors.secondary;
-        icon = Icons.verified_user_rounded;
     }
 
     entry = OverlayEntry(
@@ -56,7 +55,7 @@ class AnimatedSnackbar {
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.warning,
+                color: bgColor,
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Row(
