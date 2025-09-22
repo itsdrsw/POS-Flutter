@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile1/theme/app_colors.dart';
 
 class BakeryCheckout extends StatefulWidget {
   final double total;
@@ -59,6 +60,12 @@ class _BakeryCheckoutState extends State<BakeryCheckout> {
                       focusNode: focusNode,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.bold,
+                            width: 2,
+                          ),
+                        ),
                         hintText: "Masukkan atau pilih customer",
                         isDense: true,
                       ),
@@ -93,6 +100,9 @@ class _BakeryCheckoutState extends State<BakeryCheckout> {
               onChanged: (val) => setState(() => selectedPayment = val),
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.bold, width: 2),
+                ),
                 hintText: "Pilih metode pembayaran",
                 isDense: true,
               ),
@@ -113,7 +123,7 @@ class _BakeryCheckoutState extends State<BakeryCheckout> {
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.green,
+                    color: AppColors.bold,
                   ),
                 ),
               ],
@@ -126,7 +136,7 @@ class _BakeryCheckoutState extends State<BakeryCheckout> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
-                  backgroundColor: const Color(0xFF9DC183),
+                  backgroundColor: AppColors.primary,
                   fixedSize: const Size(80, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),

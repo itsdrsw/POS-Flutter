@@ -23,11 +23,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Odoo Mobile',
       debugShowCheckedModeBanner: false, // hilangin banner demo
-      theme: ThemeData(
-        primaryColor: const Color(0xFF9DC183), // Hex #9DC183
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF9DC183)),
-      ),
-
       // Halaman pertama
       initialRoute: '/splash',
       routes: {

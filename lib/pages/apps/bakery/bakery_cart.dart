@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile1/pages/apps/bakery/bakery_checkout.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile1/theme/app_colors.dart';
 
 class BakeryCart extends StatefulWidget {
   const BakeryCart({super.key});
@@ -75,7 +76,7 @@ class _BakeryCartState extends State<BakeryCart> {
                   child: ListTile(
                     leading: const Icon(
                       Icons.bakery_dining,
-                      color: Color(0xFF9DC183),
+                      color: AppColors.secondary,
                     ),
                     title: Text(item['name']),
                     subtitle: Column(
@@ -98,6 +99,12 @@ class _BakeryCartState extends State<BakeryCart> {
                                     horizontal: 12,
                                   ),
                                   border: OutlineInputBorder(),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.bold,
+                                      width: 2,
+                                    ),
+                                  ),
                                 ),
                                 onChanged: (val) {
                                   int? newQty = int.tryParse(val);
@@ -200,7 +207,7 @@ class _BakeryCartState extends State<BakeryCart> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             foregroundColor: Colors.white,
-            backgroundColor: const Color(0xFF9DC183),
+            backgroundColor: AppColors.primary,
             fixedSize: const Size(80, 50),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -239,13 +246,14 @@ class _BakeryCartState extends State<BakeryCart> {
             decoration: const InputDecoration(
               hintText: "Enter your note here",
               border: OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.bold),
+              ),
             ),
           ),
           actions: [
             TextButton(
-              style: TextButton.styleFrom(
-                foregroundColor: const Color(0xFF9DC183),
-              ),
+              style: TextButton.styleFrom(foregroundColor: AppColors.danger),
               child: const Text("Cancel"),
               onPressed: () => Navigator.pop(context),
             ),
@@ -258,7 +266,7 @@ class _BakeryCartState extends State<BakeryCart> {
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF9DC183),
+                backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
               ),
             ),

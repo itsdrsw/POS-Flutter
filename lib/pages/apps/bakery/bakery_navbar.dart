@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'bakery_dashboard.dart';
+import '../../../theme/app_colors.dart';
 
 class BakeryNavbar extends StatefulWidget {
   const BakeryNavbar({super.key});
@@ -61,12 +62,12 @@ class _BakeryNavbarState extends State<BakeryNavbar> {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: isSelected ? Color(0xFF9DC183) : Colors.transparent,
+          color: isSelected ? AppColors.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: Color(0xFF9DC183).withOpacity(0.3),
+                    color: AppColors.secondary.withOpacity(0.5),
                     blurRadius: 25,
                     offset: const Offset(0, 5),
                   ),

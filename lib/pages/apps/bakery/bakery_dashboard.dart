@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:mobile1/theme/app_colors.dart';
 
 class BakeryDashboard extends StatefulWidget {
   const BakeryDashboard({super.key});
@@ -102,7 +103,7 @@ class BakeryButtonState extends State<BakeryDashboard> {
           isSearching
               ? IconButton(
                   icon: const Icon(Icons.close),
-                  color: const Color(0xFF9DC183),
+                  color: AppColors.secondary,
                   onPressed: () {
                     setState(() {
                       isSearching = false;
@@ -114,7 +115,7 @@ class BakeryButtonState extends State<BakeryDashboard> {
                 )
               : IconButton(
                   icon: const Icon(Icons.search),
-                  color: const Color(0xFF9DC183),
+                  color: AppColors.primary,
                   onPressed: () {
                     setState(() {
                       isSearching = true;
@@ -126,7 +127,7 @@ class BakeryButtonState extends State<BakeryDashboard> {
             padding: const EdgeInsets.only(right: 10.0),
             child: IconButton(
               icon: const Icon(Icons.shopping_cart),
-              color: const Color(0xFF9DC183),
+              color: AppColors.primary,
               onPressed: () {
                 Navigator.pushNamed(context, '/bakery/cart');
               },
@@ -189,7 +190,7 @@ class BakeryButtonState extends State<BakeryDashboard> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: isSelected
-                          ? const Color(0xFF9DC183)
+                          ? AppColors.primary
                           : Colors.grey[300],
                       foregroundColor: isSelected ? Colors.white : Colors.black,
                       shape: RoundedRectangleBorder(
