@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class BakeryCheckout extends StatefulWidget {
   final double total;
@@ -14,6 +15,11 @@ class _BakeryCheckoutState extends State<BakeryCheckout> {
 
   final List<String> users = ["Hanoman", "Sinta", "Rama"];
   final List<String> payments = ["Cash", "Transfer Bank", "QRIS"];
+  final formatter = NumberFormat.currency(
+    locale: 'id_ID',
+    symbol: 'Rp ',
+    decimalDigits: 0,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +81,7 @@ class _BakeryCheckoutState extends State<BakeryCheckout> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  "Rp ${widget.total.toStringAsFixed(0)}",
+                  formatter.format(widget.total),
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -90,6 +96,14 @@ class _BakeryCheckoutState extends State<BakeryCheckout> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color(0xFF9DC183),
+                  fixedSize: const Size(80, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
                 onPressed: () {
                   if (selectedUser == null || selectedPayment == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -112,7 +126,10 @@ class _BakeryCheckoutState extends State<BakeryCheckout> {
 
                   Navigator.popUntil(context, ModalRoute.withName('/home'));
                 },
-                child: const Text("Konfirmasi Pesanan"),
+                child: const Text(
+                  "Konfirmasi Pesanan",
+                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
+                ),
               ),
             ),
           ],

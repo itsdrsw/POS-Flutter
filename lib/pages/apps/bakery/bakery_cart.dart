@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile1/pages/apps/bakery/bakery_checkout.dart';
+import 'package:intl/intl.dart';
 
 class BakeryCart extends StatefulWidget {
   const BakeryCart({super.key});
@@ -13,6 +14,12 @@ class _BakeryCartState extends State<BakeryCart> {
     {"name": "Croissant", "qty": 2, "price": 20000},
     {"name": "Donut", "qty": 3, "price": 150000},
   ];
+
+  final formatter = NumberFormat.currency(
+    locale: 'id_ID',
+    symbol: 'Rp ',
+    decimalDigits: 0,
+  );
 
   late List<TextEditingController> qtyControllers;
 
@@ -125,7 +132,8 @@ class _BakeryCartState extends State<BakeryCart> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            "Rp ${item['qty'] * item['price']}",
+                            // "Rp ${item['qty'] * item['price']}",
+                            formatter.format(item['qty'] * item['price']),
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
@@ -208,7 +216,7 @@ class _BakeryCartState extends State<BakeryCart> {
           },
           child: const Text(
             "Checkout",
-            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
           ),
         ),
       ),
