@@ -13,7 +13,7 @@ class _BakeryCheckoutState extends State<BakeryCheckout> {
   String? selectedUser;
   String? selectedPayment;
 
-  final List<String> users = ["Hanoman", "Sinta", "Rama"];
+  final List<String> users = ["Hanoman", "Sinta", "Rama", "Sinda", "Hendy"];
   final List<String> payments = ["Cash", "Transfer Bank", "QRIS"];
   final formatter = NumberFormat.currency(
     locale: 'id_ID',
@@ -32,23 +32,51 @@ class _BakeryCheckoutState extends State<BakeryCheckout> {
           children: [
             // Pilih User
             const Text(
-              "Pilih User",
+              "Pilih Customer",
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
-            DropdownButtonFormField<String>(
-              value: selectedUser,
-              items: users.map((user) {
-                return DropdownMenuItem(value: user, child: Text(user));
-              }).toList(),
-              onChanged: (val) => setState(() => selectedUser = val),
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Pilih user",
-                isDense: true,
-              ),
+            Autocomplete<String>(
+              optionsBuilder: (TextEditingValue textEditingValue) {
+                if (textEditingValue.text.isEmpty) {
+                  return const Iterable<String>.empty();
+                }
+                return users.where(
+                  (user) => user.toLowerCase().contains(
+                    textEditingValue.text.toLowerCase(),
+                  ),
+                );
+              },
+              onSelected: (String selection) {
+                setState(() {
+                  selectedUser = selection;
+                });
+              },
+              fieldViewBuilder:
+                  (context, controller, focusNode, onFieldSubmitted) {
+                    return TextFormField(
+                      controller: controller,
+                      focusNode: focusNode,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Masukkan atau pilih customer",
+                        isDense: true,
+                      ),
+                    );
+                  },
             ),
-
+            // DropdownButtonFormField<String>(
+            //   value: selectedUser,
+            //   items: users.map((user) {
+            //     return DropdownMenuItem(value: user, child: Text(user));
+            //   }).toList(),
+            //   onChanged: (val) => setState(() => selectedUser = val),
+            //   decoration: const InputDecoration(
+            //     border: OutlineInputBorder(),
+            //     hintText: "Pilih customer",
+            //     isDense: true,
+            //   ),
+            // ),
             const SizedBox(height: 20),
 
             // Metode Pembayaran
