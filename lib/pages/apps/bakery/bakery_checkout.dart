@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile1/theme/app_colors.dart';
+import 'package:mobile1/widget/animated_snackbar.dart';
 
 class BakeryCheckout extends StatefulWidget {
   final double total;
@@ -10,7 +11,8 @@ class BakeryCheckout extends StatefulWidget {
   State<BakeryCheckout> createState() => _BakeryCheckoutState();
 }
 
-class _BakeryCheckoutState extends State<BakeryCheckout> {
+class _BakeryCheckoutState extends State<BakeryCheckout>
+    with SingleTickerProviderStateMixin {
   String? selectedUser;
   String? selectedPayment;
 
@@ -144,25 +146,32 @@ class _BakeryCheckoutState extends State<BakeryCheckout> {
                 ),
                 onPressed: () {
                   if (selectedUser == null || selectedPayment == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          "Harap pilih user dan metode pembayaran!",
-                        ),
-                      ),
+                    AnimatedSnackbar.show(
+                      context,
+                      "Harap pilih user dan metode pembayaran! ",
+                      type: SnackbarType.warning,
                     );
                     return;
                   }
-
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(
-                        "Pesanan berhasil dibuat untuk $selectedUser",
+                      content: const Text("Pesanan berhasil!"),
+                      backgroundColor: AppColors.success,
+                      behavior: SnackBarBehavior.floating,
+                      margin: const EdgeInsets.all(16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      duration: const Duration(seconds: 5),
+                      action: SnackBarAction(
+                        label: "Tutup",
+                        textColor: Colors.white,
+                        onPressed: () {},
                       ),
                     ),
                   );
 
-                  Navigator.popUntil(context, ModalRoute.withName('/home'));
+                  Navigator.popUntil(context, ModalRoute.withName('/bakery'));
                 },
                 child: const Text(
                   "Konfirmasi Pesanan",
