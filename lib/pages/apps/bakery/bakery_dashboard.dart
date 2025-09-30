@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:mobile1/theme/app_colors.dart';
 
 class BakeryDashboard extends StatefulWidget {
-  const BakeryDashboard({super.key});
+  const BakeryDashboard({super.key}); // wajib ada super.key
 
   @override
   State<BakeryDashboard> createState() => BakeryButtonState();
@@ -122,7 +122,6 @@ class BakeryButtonState extends State<BakeryDashboard> {
                     });
                   },
                 ),
-
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
             child: IconButton(
@@ -186,7 +185,7 @@ class BakeryButtonState extends State<BakeryDashboard> {
                         selectedCategory = cat;
                       });
                       filterProducts();
-                      print("$cat dipencet");
+                      debugPrint("$cat dipencet");
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: isSelected

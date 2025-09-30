@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile1/pages/apps/bakery/scan.dart';
 import 'bakery_dashboard.dart';
 import '../../../theme/app_colors.dart';
 
@@ -12,12 +13,19 @@ class BakeryNavbar extends StatefulWidget {
 class _BakeryNavbarState extends State<BakeryNavbar> {
   int _currentIndex = 0;
 
-  // daftar halaman
-  final List<Widget> _pages = [
-    const BakeryDashboard(),
-    const Center(child: Text("Orders Page")),
-    const Center(child: Text("Settings Page")),
-  ];
+  // 🔑 Key untuk akses state BakeryDashboard
+  final GlobalKey<BakeryButtonState> dashboardKey = GlobalKey();
+
+  late final List<Widget> _pages;
+
+  @override
+  void initState() {
+    super.initState();
+    _pages = [
+      BakeryDashboard(key: dashboardKey),
+      const Center(child: Text("Settings Page")),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +50,7 @@ class _BakeryNavbarState extends State<BakeryNavbar> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _buildNavItem(Icons.home, 0),
-            _buildNavItem(Icons.receipt, 1),
+            _buildNavItem(Icons.qr_code_scanner_rounded, 1), // scan
             _buildNavItem(Icons.person, 2),
           ],
         ),
@@ -51,12 +59,41 @@ class _BakeryNavbarState extends State<BakeryNavbar> {
   }
 
   Widget _buildNavItem(IconData icon, int index) {
-    final isSelected = _currentIndex == index;
+    final isSelected =
+        _currentIndex == index && index != 1; // scan bukan tab permanen
+
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          _currentIndex = index;
-        });
+      onTap: () async {
+        if (index == 1) {
+          // 📷 buka Scanner
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const ScannerScreen()),
+          );
+
+          if (result != null && result is String) {
+            // balik ke dashboard
+            setState(() {
+              _currentIndex = 0;
+            });
+
+            // kasih delay biar dashboard kebuka dulu
+            Future.delayed(const Duration(milliseconds: 300), () {
+              final state = dashboardKey.currentState;
+              if (state != null) {
+                state.setState(() {
+                  state.isSearching = true;
+                  state.searchController.text = result;
+                });
+                state.filterProducts();
+              }
+            });
+          }
+        } else {
+          setState(() {
+            _currentIndex = index;
+          });
+        }
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
