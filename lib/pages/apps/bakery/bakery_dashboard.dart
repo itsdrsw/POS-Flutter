@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:mobile1/pages/apps/bakery/ProductDetailPage.dart';
 import 'package:mobile1/theme/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -266,14 +267,50 @@ class BakeryButtonState extends State<BakeryDashboard> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Expanded(
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.vertical(
-                                    top: Radius.circular(10),
-                                  ),
-                                  child: Image.asset(
-                                    product["image"]!,
-                                    fit: BoxFit.cover,
-                                  ),
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: const BorderRadius.vertical(
+                                        top: Radius.circular(10),
+                                      ),
+                                      child: Image.asset(
+                                        product["image"]!,
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 2,
+                                      right: 2,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(2),
+                                        decoration: BoxDecoration(
+                                          color: Colors
+                                              .black12, // background semi transparan
+                                          shape: BoxShape.circle, // bikin bulat
+                                        ),
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.info_outline,
+                                            color: Colors.white,
+                                            size: 24,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    ProductDetailPage(
+                                                      product: product,
+                                                    ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Padding(
@@ -294,6 +331,22 @@ class BakeryButtonState extends State<BakeryDashboard> {
                                       style: const TextStyle(
                                         color: Colors.grey,
                                       ),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.info_outline,
+                                        color: AppColors.background,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => ProductDetailPage(
+                                              product: product,
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
