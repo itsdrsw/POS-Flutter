@@ -315,38 +315,53 @@ class BakeryButtonState extends State<BakeryDashboard> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      product["name"]!,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      "Rp ${product["price"]}",
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(
-                                        Icons.info_outline,
-                                        color: AppColors.background,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (_) => ProductDetailPage(
-                                              product: product,
-                                            ),
+                                    // Nama + harga
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          product["name"]!,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
                                           ),
-                                        );
-                                      },
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          "Rp ${product["price"]}",
+                                          style: const TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    // Icon keranjang
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: AppColors.success.withOpacity(
+                                          0.2,
+                                        ), // background hijau muda
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: IconButton(
+                                        icon: const Icon(
+                                          Icons.shopping_cart_outlined,
+                                          color: AppColors.success,
+                                        ),
+                                        onPressed: () {
+                                          debugPrint(
+                                            "Tambah ${product["name"]} ke keranjang",
+                                          );
+                                          // Bisa panggil fungsi addToCart(product);
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
