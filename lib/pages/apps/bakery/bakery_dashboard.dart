@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:mobile1/theme/app_colors.dart';
+import 'package:shimmer/shimmer.dart';
 
 class BakeryDashboard extends StatefulWidget {
   const BakeryDashboard({super.key}); // wajib ada super.key
@@ -16,6 +17,7 @@ class BakeryButtonState extends State<BakeryDashboard> {
     'assets/images/banner-bakery3.webp',
   ];
 
+  bool isLoading = true;
   bool isSearching = false;
   final TextEditingController searchController = TextEditingController();
 
@@ -63,6 +65,12 @@ class BakeryButtonState extends State<BakeryDashboard> {
   void initState() {
     super.initState();
     filteredProducts = List.from(products); // default semua produk
+    // Simulasi loading data
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        isLoading = false;
+      });
+    });
   }
 
   void filterProducts() {
@@ -77,6 +85,22 @@ class BakeryButtonState extends State<BakeryDashboard> {
         return matchesCategory && matchesSearch;
       }).toList();
     });
+  }
+
+  Widget shimmerCard() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+        width: double.infinity,
+        height: 200.0,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+        ),
+      ),
+    );
   }
 
   @override
@@ -203,19 +227,32 @@ class BakeryButtonState extends State<BakeryDashboard> {
             ),
             const SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: filteredProducts.isEmpty
-                  ? const Center(child: Text("Produk tidak tersedia"))
-                  : GridView.builder(
+              padding: const EdgeInsets.all(10),
+              child: isLoading
+                  ? GridView.builder(
                       shrinkWrap: true,
-                      physics:
-                          const NeverScrollableScrollPhysics(), //supaya scrollnya ikut Column
+                      physics: const NeverScrollableScrollPhysics(),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
-                            childAspectRatio: 3 / 4, // lebar dan tinggi
+                            childAspectRatio: 3 / 4,
+                          ),
+                      itemCount: 6, // jumlah shimmer placeholder
+                      itemBuilder: (context, index) => shimmerCard(),
+                    )
+                  : filteredProducts.isEmpty
+                  ? const Center(child: Text("Produk tidak tersedia"))
+                  : GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 3 / 4,
                           ),
                       itemCount: filteredProducts.length,
                       itemBuilder: (context, index) {
