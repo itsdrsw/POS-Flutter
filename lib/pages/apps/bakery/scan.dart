@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile1/theme/app_colors.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class ScannerScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Barcode Scanner"),
-        backgroundColor: Colors.blue,
+        backgroundColor: AppColors.primary,
       ),
       body: Stack(
         children: [

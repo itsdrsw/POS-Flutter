@@ -329,7 +329,7 @@ class BakeryButtonState extends State<BakeryDashboard> {
                                           product["name"]!,
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 18,
+                                            fontSize: 16,
                                           ),
                                         ),
                                         const SizedBox(height: 5),
@@ -337,19 +337,19 @@ class BakeryButtonState extends State<BakeryDashboard> {
                                           "Rp ${product["price"]}",
                                           style: const TextStyle(
                                             color: Colors.grey,
-                                            fontSize: 16,
+                                            fontSize: 14,
                                           ),
                                         ),
                                       ],
                                     ),
                                     // Icon keranjang
                                     Container(
-                                      decoration: BoxDecoration(
-                                        color: AppColors.success.withOpacity(
-                                          0.2,
-                                        ), // background hijau muda
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
+                                      // decoration: BoxDecoration(
+                                      //   color: AppColors.success.withOpacity(
+                                      //     0.2,
+                                      //   ), // background hijau muda
+                                      //   borderRadius: BorderRadius.circular(8),
+                                      // ),
                                       child: IconButton(
                                         icon: const Icon(
                                           Icons.shopping_cart_outlined,

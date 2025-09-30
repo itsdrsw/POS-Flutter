@@ -22,7 +22,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           children: [
             // Header hijau dengan tombol
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               width: double.infinity,
               color: AppColors.primary,
               child: Row(
@@ -53,7 +53,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
             // Gambar produk
             Container(
-              margin: const EdgeInsets.all(40),
+              margin: const EdgeInsets.all(30),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 boxShadow: [
@@ -65,7 +65,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ],
               ),
               child: CircleAvatar(
-                radius: 200,
+                radius: 150,
                 backgroundImage: AssetImage(widget.product["image"]!),
               ),
             ),
@@ -79,7 +79,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
                 decoration: const BoxDecoration(
                   color: AppColors.background,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,7 +94,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             Text(
                               widget.product["name"]!,
                               style: const TextStyle(
-                                fontSize: 28,
+                                fontSize: 24,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -102,7 +102,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             Text(
                               "Rp ${widget.product["price"]}",
                               style: const TextStyle(
-                                fontSize: 24,
+                                fontSize: 20,
                                 color: AppColors.success,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -126,7 +126,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               ),
                               Text(
                                 "$quantity",
-                                style: const TextStyle(fontSize: 18),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               IconButton(
                                 onPressed: () {
@@ -143,7 +146,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     const Text(
                       "Deskripsi",
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -151,7 +154,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     const Text(
                       "Lorem ipsum is simply dummy text of the printing and typesetting industry. "
                       "Lorem Ipsum has been the industry's standard dummy text ever since...",
-                      style: TextStyle(color: Colors.grey, fontSize: 18),
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
                   ],
                 ),
@@ -166,7 +169,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
-                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -177,7 +180,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 child: const Text(
                   "Add to Cart",
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
