@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile1/theme/app_colors.dart';
+import 'package:intl/intl.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Map<String, String> product;
@@ -12,6 +13,11 @@ class ProductDetailPage extends StatefulWidget {
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
   int quantity = 1;
+  final formater = NumberFormat.currency(
+    locale: 'id_ID',
+    symbol: 'Rp ',
+    decimalDigits: 0,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +106,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             ),
                             const SizedBox(height: 5),
                             Text(
-                              "Rp ${widget.product["price"]}",
+                              formater.format(
+                                int.parse(widget.product["price"]!),
+                              ),
+                              // "Rp ${widget.product["price"]}",
                               style: const TextStyle(
                                 fontSize: 20,
                                 color: AppColors.success,

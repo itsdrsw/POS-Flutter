@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:mobile1/pages/apps/bakery/ProductDetailPage.dart';
 import 'package:mobile1/theme/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:intl/intl.dart';
 
 class BakeryDashboard extends StatefulWidget {
   const BakeryDashboard({super.key}); // wajib ada super.key
@@ -17,6 +18,12 @@ class BakeryButtonState extends State<BakeryDashboard> {
     'assets/images/banner-bakery2.webp',
     'assets/images/banner-bakery3.webp',
   ];
+
+  final formater = NumberFormat.currency(
+    locale: 'id_ID',
+    symbol: 'Rp ',
+    decimalDigits: 0,
+  );
 
   bool isLoading = true;
   bool isSearching = false;
@@ -334,7 +341,9 @@ class BakeryButtonState extends State<BakeryDashboard> {
                                         ),
                                         const SizedBox(height: 5),
                                         Text(
-                                          "Rp ${product["price"]}",
+                                          formater.format(
+                                            int.parse(product["price"]!),
+                                          ),
                                           style: const TextStyle(
                                             color: Colors.grey,
                                             fontSize: 14,
