@@ -27,7 +27,12 @@ class _BakeryCheckoutState extends State<BakeryCheckout>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Checkout")),
+      appBar: AppBar(
+        title: const Text(
+          "Checkout",
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

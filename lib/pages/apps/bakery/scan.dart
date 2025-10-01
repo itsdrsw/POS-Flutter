@@ -13,6 +13,12 @@ class _ScannerScreenState extends State<ScannerScreen> {
   String? barcode;
 
   @override
+  void dispose() {
+    MobileScannerController().dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

@@ -30,7 +30,7 @@ class BakeryButtonState extends State<BakeryDashboard> {
   final TextEditingController searchController = TextEditingController();
 
   String selectedCategory = "All";
-
+  int? selectedTable; // simpan nomor meja yang dipilih
   final List<String> categories = ["All", "Breads", "Pastries"];
 
   final List<Map<String, String>> products = [
@@ -81,6 +81,7 @@ class BakeryButtonState extends State<BakeryDashboard> {
     });
   }
 
+  // int? selectedTable;
   void filterProducts() {
     String query = searchController.text.toLowerCase();
 
@@ -196,44 +197,136 @@ class BakeryButtonState extends State<BakeryDashboard> {
               }).toList(),
             ),
             const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                children: [
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.success,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 40,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () async {
+                      final result = await _showTableBottomSheet(context);
+                      if (result != null) {
+                        setState(() {
+                          selectedTable = result; // simpan pilihan
+                        });
+                        debugPrint("Meja dipilih: $result");
+                      }
+                      debugPrint("Pilih Meja Ditekan");
+                    },
+                    icon: const Icon(Icons.table_restaurant),
+                    label: const Text(
+                      "Pilih Meja",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  if (selectedTable != null)
+                    Container(
+                      constraints: const BoxConstraints(
+                        minWidth: 100,
+                      ), // biar ada jarak
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Meja Nomor $selectedTable",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 20), // jarak teks ↔ ikon
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectedTable = null; // reset pilihan
+                              });
+                            },
+                            child: const Icon(
+                              Icons.close,
+                              size: 18,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
             const Padding(
-              padding: EdgeInsets.only(left: 16.0),
+              padding: EdgeInsets.only(left: 24.0),
               child: Text(
                 "Menu Categories",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
               ),
             ),
             const SizedBox(height: 10),
             // Tombol Kategori
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Wrap(
-                spacing: 10,
+                spacing: 24,
                 children: categories.map((cat) {
                   final bool isSelected = cat == selectedCategory;
-                  return ElevatedButton(
-                    onPressed: () {
+                  return GestureDetector(
+                    onTap: () {
                       setState(() {
                         selectedCategory = cat;
                       });
                       filterProducts();
                       debugPrint("$cat dipencet");
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: isSelected
-                          ? AppColors.primary
-                          : Colors.grey[300],
-                      foregroundColor: isSelected ? Colors.white : Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          cat,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                            color: isSelected ? AppColors.primary : Colors.grey,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                          height: 2,
+                          width: isSelected ? 30 : 0,
+                          color: AppColors.primary,
+                        ),
+                      ],
                     ),
-                    child: Text(cat),
                   );
                 }).toList(),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 2),
             Padding(
               padding: const EdgeInsets.all(10),
               child: isLoading
@@ -386,4 +479,108 @@ class BakeryButtonState extends State<BakeryDashboard> {
       ),
     );
   }
+}
+
+Future<int?> _showTableBottomSheet(BuildContext context) {
+  int? selectedTable;
+
+  return showModalBottomSheet<int>(
+    context: context,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (ctx) {
+      return StatefulBuilder(
+        builder: (context, setModalState) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.7, // tinggi 70%
+            child: Column(
+              children: [
+                // ===== TITLE =====
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    "PILIH MEJA",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+
+                // ===== GRID MEJA =====
+                Expanded(
+                  child: GridView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4, // 4 meja per baris
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 1,
+                        ),
+                    itemCount: 25, // jumlah meja
+                    itemBuilder: (context, index) {
+                      final mejaNo = index + 1;
+                      final isSelected = selectedTable == mejaNo;
+
+                      return GestureDetector(
+                        onTap: () {
+                          setModalState(() {
+                            selectedTable = mejaNo;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? AppColors.success
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: AppColors.success,
+                              width: 1,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Meja $mejaNo",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: isSelected ? Colors.white : Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+                // ===== TOMBOL KONFIRMASI =====
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 50),
+                      backgroundColor: AppColors.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: selectedTable == null
+                        ? null
+                        : () {
+                            Navigator.pop(context, selectedTable);
+                          },
+                    child: const Text(
+                      "Konfirmasi",
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
 }
