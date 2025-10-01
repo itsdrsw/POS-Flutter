@@ -11,10 +11,10 @@ class ScannerScreen extends StatefulWidget {
 
 class _ScannerScreenState extends State<ScannerScreen> {
   String? barcode;
-
+  final MobileScannerController controller = MobileScannerController();
   @override
   void dispose() {
-    MobileScannerController().dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -28,6 +28,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
       body: Stack(
         children: [
           MobileScanner(
+            controller: controller,
             onDetect: (capture) {
               final barcode = capture.barcodes.first.rawValue;
               if (barcode != null) {
