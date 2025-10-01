@@ -22,7 +22,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.grey.withOpacity(0.9),
+      // backgroundColor: AppColors.grey.withOpacity(0.9),
+      backgroundColor: AppColors.primary,
       body: SafeArea(
         child: Column(
           children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'bakery_setting.dart';
 import 'package:mobile1/pages/apps/bakery/scan.dart';
 import 'bakery_dashboard.dart';
 import '../../../theme/app_colors.dart';
@@ -24,6 +25,7 @@ class _BakeryNavbarState extends State<BakeryNavbar> {
     _pages = [
       BakeryDashboard(key: dashboardKey),
       const Center(child: Text("Settings Page")),
+      const BakerySetting(),
     ];
   }
 
