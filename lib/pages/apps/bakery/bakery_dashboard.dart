@@ -227,7 +227,7 @@ class BakeryButtonState extends State<BakeryDashboard> {
                     label: const Text(
                       "Pilih Meja",
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 16, //ukuran font
                         fontWeight: FontWeight.w500,
                       ),
                     ),
