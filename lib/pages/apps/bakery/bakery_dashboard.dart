@@ -4,6 +4,7 @@ import 'package:mobile1/pages/apps/bakery/ProductDetailPage.dart';
 import 'package:mobile1/theme/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile1/widget/animated_snackbar.dart';
 
 class BakeryDashboard extends StatefulWidget {
   const BakeryDashboard({super.key}); // wajib ada super.key
@@ -197,6 +198,7 @@ class BakeryButtonState extends State<BakeryDashboard> {
               }).toList(),
             ),
             const SizedBox(height: 20),
+            // Tombol Pilih Meja + Tampilkan Meja Terpilih
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
@@ -452,15 +454,30 @@ class BakeryButtonState extends State<BakeryDashboard> {
                                       //   ), // background hijau muda
                                       //   borderRadius: BorderRadius.circular(8),
                                       // ),
+                                      /// CART SECTION
                                       child: IconButton(
                                         icon: const Icon(
                                           Icons.shopping_cart_outlined,
                                           color: AppColors.success,
                                         ),
                                         onPressed: () {
-                                          debugPrint(
-                                            "Tambah ${product["name"]} ke keranjang",
-                                          );
+                                          if (selectedTable == null) {
+                                            AnimatedSnackbar.show(
+                                              context,
+                                              "Harap pilih meja terlebih dahulu!",
+                                              type: SnackbarType.warning,
+                                            );
+                                          } else {
+                                            Navigator.pushNamed(
+                                              context,
+                                              '/bakery/cart',
+                                            );
+                                            AnimatedSnackbar.show(
+                                              context,
+                                              "Produk ${product["name"]} berhasil ditambahkan ke keranjang!",
+                                              type: SnackbarType.success,
+                                            );
+                                          }
                                           // Bisa panggil fungsi addToCart(product);
                                         },
                                       ),

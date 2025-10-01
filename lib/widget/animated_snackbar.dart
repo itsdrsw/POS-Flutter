@@ -53,7 +53,7 @@ class AnimatedSnackbar {
           child: Material(
             color: Colors.transparent,
             child: Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: bgColor,
                 borderRadius: BorderRadius.circular(5),
